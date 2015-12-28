@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NotesSql</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_addnote">Addnote</string>
+    <string name="title_activity_addnote2">Addnote2</string>
+    <string name="title_activity_addnote3">Addnote3</string>
+</resources>
