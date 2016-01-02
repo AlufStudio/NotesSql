@@ -25,15 +25,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Cityholder> {
     ArrayList<String> data2;
     LayoutInflater inflater;
     Context context;
-    sql s;
     SQLiteDatabase sqLiteDatabase;
     //List<singleSecondRow> refers to list of objects of singleSecondRow
 
-    public Adapter(Context context, ArrayList<String> data , sql s) {
+    public Adapter(Context context, ArrayList<String> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.data = data;
-        this.s=s;
     }
 
 

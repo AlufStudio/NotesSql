@@ -1,4 +1,5 @@
 package com.mohak.notessql;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -43,12 +48,45 @@ public class Addnote extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle("Notes using Sql");
+            final EditText editText = (EditText) findViewById(R.id.edittex);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    search(charSequence,db);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             s = new sql(Addnote.this, sql.DATABASE_NAME, null, sql.DATABASE_VERSION);
-            db =s.getWritableDatabase();
+            db = s.getWritableDatabase();
             add();
         }
 
 
+    }
+
+    private void search(CharSequence val, SQLiteDatabase db) {
+        String[] arr = {sql.UID, sql.NAME};
+        Cursor cursor = db.query(sql.TABLENAME, arr, null, null, null, null, null);
+        ArrayList<String> string = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int i = cursor.getInt(cursor.getColumnIndex(sql.UID));
+            String name = cursor.getString(cursor.getColumnIndex(sql.NAME));
+            if (name.toLowerCase().contains(val.toString().toLowerCase()))
+                string.add(name);
+        }
+        cursor.close();
+        Adapter dap = new Adapter(this, string);
+        recyclerView.setAdapter(dap);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void add() {
@@ -82,7 +120,7 @@ public class Addnote extends AppCompatActivity {
             arrayList.add(name);
         }
         recyclerView = (RecyclerView) findViewById(R.id.rec);
-        recyclerView.setAdapter(new Adapter(this, arrayList,s));
+        recyclerView.setAdapter(new Adapter(this, arrayList));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cursor.close();
 
