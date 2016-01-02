@@ -29,7 +29,7 @@ public class Addnote extends AppCompatActivity {
     private SQLiteDatabase db;
     private String strings;
     private ArrayList<String> arrayList;
-    private sql s;
+     private sql s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
